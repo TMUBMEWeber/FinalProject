@@ -46,7 +46,7 @@ void game(void){
     int Maps[11][11];
     initialMap(Maps);
     printMap();
-    printf("Game over!\n");
+    printf("Game over!!!!!\n");
 }
 
 void initialMap(char Map[][11]){/* 這邊我把地圖給初始化*/
