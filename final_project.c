@@ -57,6 +57,7 @@ void initialMap(char Map[][11]){/* 這邊我把地圖給初始化*/
 }
 void printMap(void){
     int i,j;
+    printf("\n");
     for (i=0; i<=9; i++) {
         if (i==0) {
             printf("  ");
