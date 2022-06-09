@@ -15,6 +15,7 @@ void printMap(void);
 void game(void);
 
 int main(){
+    int x;
     int play;
     srand(time(0));
     while (1) {
@@ -25,8 +26,7 @@ int main(){
         else if(play==2){
             break;
         }
-        else{
-            printf("Please enter correct number!");
+        else{            printf("Please enter correct number!");
             continue;
         }
     }
