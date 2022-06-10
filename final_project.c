@@ -10,7 +10,7 @@
 #include <string.h>
 #define ROW 10
 #define COL 10
-#define MINES_NUMBER 10
+#define MINES_NUMBER 15
 int menu(void);
 void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL]);
 void game(void);
@@ -66,14 +66,15 @@ void game(void){
             printf("您踩雷了！游戲結束！！\n");
             break;
     }
+    }
 }
-
-void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL]){/* 這邊我把地圖給初始化*/
+void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL])
+{/* 這邊我把地圖給初始化*/
     int i, j;
     for (i = 0; i < 11; i++){
         for (j = 0; j < 11; j++){
-            mineMap[i][j] = '0';
-            playerMap[i][j]='O';
+        mineMap[i][j] = '0';
+        playerMap[i][j]='O';
         }
     }
     int mineCounter=0;
@@ -87,12 +88,17 @@ void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL]){/* 這邊我把
         ++mineCounter;
     }
 }
-    
-void printMap(char theMap[ROW][COL]){
+
+void printMap(char theMap[ROW][COL])
+    {
     for (int i=0; i<ROW; i++) {
         for (int j=0; j<COL; j++) {
-            printf("%c  ",theMap[i][j]);
+        printf("%c  ",theMap[i][j]);
         }
         printf("\n");
     }
 }
+
+    
+    
+   
