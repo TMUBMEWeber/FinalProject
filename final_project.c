@@ -56,6 +56,8 @@ void game(void){
         printf("請輸入要查表的座標及動作 (row,col):");
         int row ,col;
         scanf("%d %d",&row,&col);
+        int step=0;
+        step++;
         remakeMap(playerMap, mineMap, row, col);
         if (row<0||row>=ROW||col<0||col>=COL) {
             printf("已越界，請重新輸入\n");
@@ -65,12 +67,12 @@ void game(void){
             printf("重複輸入，請重新輸入\n");
             continue;
         }
-        if (mineMap[row][col] == '1') {
+        if (mineMap[row][col] == 'B') {
             printf("您踩雷了！游戲結束！！\n");
             printMap(mineMap);
+            printf("Steps:%d",step);
             break;
         }
-        void remakeMap(char playerMap[ROW][COL], char mineMap[ROW][COL], int row, int col);
         int opened=0;
         if (opened==ROW*COL-MINES_NUMBER) {
             printf("YOU WIN");
