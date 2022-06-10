@@ -56,12 +56,13 @@ void game(void){
         printf("請輸入要查表的座標及動作 (row,col):");
         int row ,col;
         scanf("%d %d",&row,&col);
+        remakeMap(playerMap, mineMap, row, col);
         if (row<0||row>=ROW||col<0||col>=COL) {
             printf("已越界，請重新輸入\n");
             continue;
         }
-        if (playerMap[row][col]!='O') {
-            printf("重複輸入，請重新輸入");
+        if (playerMap[row][col]!='0') {
+            printf("重複輸入，請重新輸入\n");
             continue;
         }
         if (mineMap[row][col] == '1') {
@@ -81,25 +82,24 @@ void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL]){
     int i, j;
     for (i = 0; i < ROW; i++){
         for (j = 0; j < COL; j++){
-        mineMap[i][j] = '0';
-        playerMap[i][j]='O';
+        mineMap[i][j] = 'O';
+        playerMap[i][j]='0';
         }
     }
     int mineCounter=0;
     while (mineCounter<MINES_NUMBER) {
         int a=rand()%ROW;
         int b=rand()%COL;
-        if (mineMap[a][b]=='1') {
+        if (mineMap[a][b]=='B') {
             continue;
         }
-        mineMap[a][b]='1';
+        mineMap[a][b]='B';
         ++mineCounter;
     }
     return;
 }
 
-void printMap(char theMap[ROW][COL])
-    {
+void printMap(char theMap[ROW][COL]){
     for (int i=0; i<ROW; i++) {
         for (int j=0; j<COL; j++) {
         printf("%c  ",theMap[i][j]);
@@ -110,21 +110,30 @@ void printMap(char theMap[ROW][COL])
 }
 void remakeMap(char playerMap[ROW][COL], char mineMap[ROW][COL], int row, int col) {
     int count = 0;
-    for (int r = row - 1; r <= row + 1; r++) {
-        for (int c = col - 1; c <= col + 1; c++) {
-            if (r < 0 || r >= ROW || c < 0 || c >= COL) { //超出地圖范圍，直接跳出進入下次回圈
-                continue;
-            }
-            if (r == row && c == col) { //中間位置不參與計算 直接進入下次回圈
-                continue;
-            }
-            if (mineMap[r][c] == '1') {
-                count++;
-            }
-        }
-    }
-    playerMap[row][col] = '0' + count;
-    return;
-}
+     for (int i = row-1; i <=row+1 ; i++){
+     for (int j = col-1; j <= col+1; j++){
+      if (i >= ROW || i < 0 || j >= COL || j < 0){
+      continue;
+      }
+      if (mineMap[i][j] == 'B'){
+      count++;
+      }
+     }
+     }
+     playerMap[row][col] = '0' + count;
     
-   
+     if (playerMap[row][col] == '0'){
+     if (row < ROW && row >= 0 && col < COL && col - 1 >= 0&& playerMap[row][col - 1] == '0'){
+      remakeMap(playerMap, mineMap, row, col - 1);
+     }
+     if (row < ROW && row >= 0 && col + 1 < COL && col >= 0&& playerMap[row][col + 1] == '0'){
+      remakeMap(playerMap, mineMap, row, col + 1);
+     }
+     if (row < ROW && row - 1 >= 0 && col < COL && col >= 0&& playerMap[row - 1][col] == '0'){
+      remakeMap(playerMap, mineMap, row - 1, col);
+     }
+     if (row + 1 < ROW && row >= 0 && col < COL && col >= 0&& playerMap[row + 1][col] == '0'){
+      remakeMap(playerMap, mineMap, row + 1, col);
+     }
+    }
+}
