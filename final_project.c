@@ -51,14 +51,13 @@ void game(void){
     char mineMap[ROW][COL];
     char playerMap[ROW][COL];
     initialMap(mineMap,playerMap);
+    int step=0;
     while (1) {
         printMap(playerMap);
         printf("Please enter x , y(row , col):\n");
         int row ,col;
         scanf("%d %d",&row,&col);
-        int step=0;
         step++;
-        remakeMap(playerMap, mineMap, row, col);
         if (row<0||row>=ROW||col<0||col>=COL) {
             printf("Please enter a value inside the grid:\n");
             continue;
@@ -70,13 +69,15 @@ void game(void){
         if (mineMap[row][col] == 'B') {
             printf("Boom! You died!\n");
             printMap(mineMap);
-            printf("Steps:%d",step);
+            printf("Steps:%d\n",step);
             break;
         }
         int opened=0;
         if (opened==ROW*COL-MINES_NUMBER) {
             printf("YOU WIN");
+            printf("Steps:%d\n",step);
         }
+        remakeMap(playerMap, mineMap, row, col);
     }
     return;
 }
@@ -112,30 +113,30 @@ void printMap(char theMap[ROW][COL]){
 }
 void remakeMap(char playerMap[ROW][COL], char mineMap[ROW][COL], int row, int col) {
     int count = 0;
-     for (int i = row-1; i <=row+1 ; i++){
-     for (int j = col-1; j <= col+1; j++){
-      if (i >= ROW || i < 0 || j >= COL || j < 0){
-      continue;
-      }
-      if (mineMap[i][j] == 'B'){
-      count++;
-      }
-     }
-     }
+        for (int i = row-1; i <=row+1 ; i++){
+            for (int j = col-1; j <= col+1; j++){
+                if (i >= ROW || i < 0 || j >= COL || j < 0){
+                    continue;
+                }
+                if (mineMap[i][j] == 'B'){
+                    count++;
+                }
+            }
+            
+        }
      playerMap[row][col] = '0' + count;
-    
      if (playerMap[row][col] == '0'){
-     if (row < ROW && row >= 0 && col < COL && col - 1 >= 0&& playerMap[row][col - 1] == '0'){
-      remakeMap(playerMap, mineMap, row, col - 1);
-     }
-     if (row < ROW && row >= 0 && col + 1 < COL && col >= 0&& playerMap[row][col + 1] == '0'){
-      remakeMap(playerMap, mineMap, row, col + 1);
-     }
-     if (row < ROW && row - 1 >= 0 && col < COL && col >= 0&& playerMap[row - 1][col] == '0'){
-      remakeMap(playerMap, mineMap, row - 1, col);
-     }
-     if (row + 1 < ROW && row >= 0 && col < COL && col >= 0&& playerMap[row + 1][col] == '0'){
-      remakeMap(playerMap, mineMap, row + 1, col);
-     }
+         if (row < ROW && row >= 0 && col < COL && col - 1 >= 0&& playerMap[row][col - 1] == '0'){
+             remakeMap(playerMap, mineMap, row, col - 1);
+         }
+         if (row < ROW && row >= 0 && col + 1 < COL && col >= 0&& playerMap[row][col + 1] == '0'){
+             remakeMap(playerMap, mineMap, row, col + 1);
+         }
+         if (row < ROW && row - 1 >= 0 && col < COL && col >= 0&& playerMap[row - 1][col] == '0'){
+             remakeMap(playerMap, mineMap, row - 1, col);
+         }
+         if (row + 1 < ROW && row >= 0 && col < COL && col >= 0&& playerMap[row + 1][col] == '0'){
+             remakeMap(playerMap, mineMap, row + 1, col);
+         }
     }
 }
