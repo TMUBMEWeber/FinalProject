@@ -15,7 +15,7 @@ int menu(void);
 void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL]);
 void game(void);
 void printMap(char theMap[ROW][COL]);
-
+void remakeMap(char playerMap[ROW][COL], char mineMap[ROW][COL], int row, int col);
 int main(){
     int play;
     srand(time(0));
@@ -28,7 +28,7 @@ int main(){
             break;
         }
         else{
-            printf("Please enter correct number!");
+            printf("Please enter correct number!\n");
             continue;
         }
     }
@@ -65,8 +65,14 @@ void game(void){
         if (mineMap[row][col] == '0') {
             printf("您踩雷了！游戲結束！！\n");
             break;
+        }
+        void remakeMap(char playerMap[ROW][COL], char mineMap[ROW][COL], int row, int col);
+        int opened=0;
+        if (opened==ROW*COL-MINES_NUMBER) {
+            printf("YOU WIN");
+        }
     }
-    }
+    return;
 }
 void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL])
 {/* 這邊我把地圖給初始化*/
@@ -87,6 +93,7 @@ void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL])
         mineMap[a][b]='1';
         ++mineCounter;
     }
+    return;
 }
 
 void printMap(char theMap[ROW][COL])
@@ -97,8 +104,25 @@ void printMap(char theMap[ROW][COL])
         }
         printf("\n");
     }
+    return;
 }
-
-    
+void remakeMap(char playerMap[ROW][COL], char mineMap[ROW][COL], int row, int col) {
+    int count = 0;
+    for (int r = row - 1; r <= row + 1; r++) {
+        for (int c = col - 1; c <= col + 1; c++) {
+            if (r < 0 || r >= ROW || c < 0 || c >= COL) { //超出地圖范圍，直接跳出進入下次回圈
+                continue;
+            }
+            if (r == row && c == col) { //中間位置不參與計算 直接進入下次回圈
+                continue;
+            }
+            if (mineMap[r][c] == '1') {
+                count++;
+            }
+        }
+    }
+    playerMap[row][col] = '0' + count;
+    return;
+}
     
    
