@@ -47,28 +47,28 @@ int menu(void){
 }
 
 void game(void){
-    printf("遊戲開始\n");
+    printf("Game start!\n");
     char mineMap[ROW][COL];
     char playerMap[ROW][COL];
     initialMap(mineMap,playerMap);
     while (1) {
         printMap(playerMap);
-        printf("請輸入要查表的座標及動作 (row,col):");
+        printf("Please enter x , y(row , col):\n");
         int row ,col;
         scanf("%d %d",&row,&col);
         int step=0;
         step++;
         remakeMap(playerMap, mineMap, row, col);
         if (row<0||row>=ROW||col<0||col>=COL) {
-            printf("已越界，請重新輸入\n");
+            printf("Please enter a value inside the grid:\n");
             continue;
         }
         if (playerMap[row][col]!='0') {
-            printf("重複輸入，請重新輸入\n");
+            printf("Please enter a value that has not already been entered\n");
             continue;
         }
         if (mineMap[row][col] == 'B') {
-            printf("您踩雷了！游戲結束！！\n");
+            printf("Boom! You died!\n");
             printMap(mineMap);
             printf("Steps:%d",step);
             break;
