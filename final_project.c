@@ -47,6 +47,8 @@ int menu(void){
 }
 
 void game(void){
+    time_t start,end;
+    start=time(NULL);
     printf("Game start!\n");
     char mineMap[ROW][COL];
     char playerMap[ROW][COL];
@@ -70,11 +72,15 @@ void game(void){
             printf("Boom! You died!\n");
             printMap(mineMap);
             printf("Steps:%d\n",step);
+            end=time(NULL);
+            printf("Use time:%ld sec(s)\n",end-start);
             break;
         }
         int opened=0;
         if (opened==ROW*COL-MINES_NUMBER) {
             printf("YOU WIN");
+            end=time(NULL);
+            printf("Use time:%ld sec(s)\n",end-start);
             printf("Steps:%d\n",step);
         }
         remakeMap(playerMap, mineMap, row, col);
