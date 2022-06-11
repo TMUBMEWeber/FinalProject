@@ -38,9 +38,10 @@ int main(){
 }
 
 int menu(void){
-    printf("-----------------\n");
+    printf("-----------------------------------\n");
     printf("1.Start\n2.Leave\n");
-    printf("-----------------\n");
+    printf("Function 1 to open the cell\nFunction 2 to mark or unmark the cell\n");
+    printf("-----------------------------------\n");
     int play=0;
     scanf("%d", &play);
     return play;
@@ -56,25 +57,38 @@ void game(void){
     int step=0;
     while (1) {
         printMap(playerMap);
-        printf("Please enter x , y(row , col):\n");
-        int row ,col;
-        scanf("%d %d",&row,&col);
-        step++;
+        printf("Please enter (row , col, function):\n");
+        int row ,col,func;
+        scanf("%d%d%d",&row,&col,&func);
+        if (func==1) {
+            step++;
+        }
         if (row<0||row>=ROW||col<0||col>=COL) {
             printf("Please enter a value inside the grid:\n");
             continue;
         }
-        if (playerMap[row][col]!='0') {
+        if (playerMap[row][col]!='*'&&playerMap[row][col]!='M') {
             printf("Please enter a value that has not already been entered\n");
             continue;
         }
-        if (mineMap[row][col] == 'B') {
+        if (func!=1&&func!=2) {
+            printf("Please enter function 1 or function 2");
+        }
+        if (mineMap[row][col] == 'B'&&func==1) {
             printf("Boom! You died!\n");
             printMap(mineMap);
             printf("Steps:%d\n",step);
             end=time(NULL);
             printf("Use time:%ld sec(s)\n",end-start);
             break;
+        }
+        if (func==2 && playerMap[row][col]!='M') {
+            playerMap[row][col]='M';
+            continue;
+        }
+        if (func==2 && playerMap[row][col]=='M') {
+            playerMap[row][col]='*';
+            continue;
         }
         int opened=0;
         if (opened==ROW*COL-MINES_NUMBER) {
@@ -92,7 +106,7 @@ void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL]){
     for (i = 0; i < ROW; i++){
         for (j = 0; j < COL; j++){
         mineMap[i][j] = 'O';
-        playerMap[i][j]='0';
+        playerMap[i][j]='*';
         }
     }
     int mineCounter=0;
@@ -132,16 +146,16 @@ void remakeMap(char playerMap[ROW][COL], char mineMap[ROW][COL], int row, int co
         }
      playerMap[row][col] = '0' + count;
      if (playerMap[row][col] == '0'){
-         if (row < ROW && row >= 0 && col < COL && col - 1 >= 0&& playerMap[row][col - 1] == '0'){
+         if (row < ROW && row >= 0 && col < COL && col - 1 >= 0&& playerMap[row][col - 1] == '*'){
              remakeMap(playerMap, mineMap, row, col - 1);
          }
-         if (row < ROW && row >= 0 && col + 1 < COL && col >= 0&& playerMap[row][col + 1] == '0'){
+         if (row < ROW && row >= 0 && col + 1 < COL && col >= 0&& playerMap[row][col + 1] == '*'){
              remakeMap(playerMap, mineMap, row, col + 1);
          }
-         if (row < ROW && row - 1 >= 0 && col < COL && col >= 0&& playerMap[row - 1][col] == '0'){
+         if (row < ROW && row - 1 >= 0 && col < COL && col >= 0&& playerMap[row - 1][col] == '*'){
              remakeMap(playerMap, mineMap, row - 1, col);
          }
-         if (row + 1 < ROW && row >= 0 && col < COL && col >= 0&& playerMap[row + 1][col] == '0'){
+         if (row + 1 < ROW && row >= 0 && col < COL && col >= 0&& playerMap[row + 1][col] == '*'){
              remakeMap(playerMap, mineMap, row + 1, col);
          }
     }
