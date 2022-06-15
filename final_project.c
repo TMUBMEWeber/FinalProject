@@ -17,6 +17,7 @@ void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL]);
 void game(void);
 void printMap(char theMap[ROW][COL]);
 void remakeMap(char playerMap[ROW][COL], char mineMap[ROW][COL], int row, int col);
+void Ask(void);
 
 int main(){
     srand(time(0));
@@ -80,6 +81,7 @@ void game(void){
             printf("Steps:%d\n",step);
             end=time(NULL);
             printf("Use time:%ld sec(s)\n",end-start);
+            Ask();
             break;
         }
         if (func==2 && playerMap[row][col]!='M') {
@@ -96,6 +98,7 @@ void game(void){
             end=time(NULL);
             printf("Use time:%ld sec(s)\n",end-start);
             printf("Steps:%d\n",step);
+            Ask();
         }
         remakeMap(playerMap, mineMap, row, col);
     }
@@ -123,11 +126,15 @@ void initialMap(char mineMap[ROW][COL],char playerMap[ROW][COL]){
 }
 
 void printMap(char theMap[ROW][COL]){
+    for (int i=0; i<=9; i++) {
+        printf("%d  ",i);
+    }
+    printf("\n\n");
     for (int i=0; i<ROW; i++) {
         for (int j=0; j<COL; j++) {
         printf("%c  ",theMap[i][j]);
         }
-        printf("\n");
+        printf(" ");printf("%d",i);printf("\n");
     }
     return;
 }
@@ -158,5 +165,16 @@ void remakeMap(char playerMap[ROW][COL], char mineMap[ROW][COL], int row, int co
          if (row + 1 < ROW && row >= 0 && col < COL && col >= 0&& playerMap[row + 1][col] == '*'){
              remakeMap(playerMap, mineMap, row + 1, col);
          }
+    }
+}
+void Ask( void ){
+    printf("Do you want to play again?(Type 1 to restart , 2 to End)\n");
+    int choice;
+    scanf("%d", &choice);
+    if(choice == 1){
+        game();
+    }
+    if(choice == 2){
+        exit(1);
     }
 }
