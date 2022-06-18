@@ -14,7 +14,7 @@
 
 int menu(void);
 void initialMap(char mineMap1[ROW][COL],char mineMap2[ROW][COL],char playerMap[ROW][COL]);
-void game(void);
+void game(int win ,int lose);
 void printMap(char theMap[ROW][COL]);
 void remakeMap(char playerMap[ROW][COL], char mineMap[ROW][COL], int row, int col);
 int Ask(void);
@@ -23,9 +23,10 @@ int main(){
     srand(time(0));
     while (1) {
         int play=0;
+        int win=0;int lose=0;
         play=menu();
         if (play==1) {
-            game();
+            game(win,lose);
         }
         else if(play==2){
             break;
@@ -39,20 +40,18 @@ int main(){
 }
 
 int menu(void){
-    printf("-----------------------------------\n");
+    printf("--------------------------------------------------------\n");
     printf("1.Start\n2.Leave\n");
     printf("Function 1 to open the cell\nFunction 2 to mark or unmark the cell\n");
     printf("Attention!You \"must \"mark on the bomb-cell to win\n");
     printf("Total score is round of win minus lose\n");
-    printf("-----------------------------------\n");
+    printf("--------------------------------------------------------\n");
     int play=0;
     scanf("%d", &play);
     return play;
 }
 
-void game(void){
-    int Lose=0;
-    int win=0;
+void game(int win,int lose){
     time_t start,end;
     start=time(NULL);
     printf("Game start!\n");
@@ -90,14 +89,14 @@ void game(void){
             printf("Steps:%d\n",step);
             end=time(NULL);
             printf("Use time:%ld sec(s)\n",end-start);
-            Lose++;
+            lose++;
             int ask=Ask();
             if (ask==1) {
-                game();
+                game(win,lose);
             }
             if (ask==2) {
-                int score=win-Lose;
-                printf("Total win & lose :%d & %d\nSo the total score is %d\n",win ,Lose,score);
+                int score=win-lose;
+                printf("Total win & lose :%d & %d\nSo the total score is %d\n",win ,lose,score);
                 break;
             }
             break;
@@ -110,11 +109,11 @@ void game(void){
             win++;
             int ask=Ask();
             if (ask==1) {
-                game();
+                game(win,lose);
             }
             if (ask==2) {
-                int score=win-Lose;
-                printf("Total win & lose :%d & %d\nSo the total score is %d\n",win ,Lose,score);
+                int score=win-lose;
+                printf("Total win & lose :%d & %d\nSo the total score is %d\n",win ,lose,score);
                 break;
             }
         }
@@ -133,9 +132,9 @@ void game(void){
             mineMap2[row][col]='B';
             continue;
         }
-        if (func==2 && playerMap[row][col]=='M'&&mineMap1[row][col]=='0') {
+        if (func==2 && playerMap[row][col]=='M'&&mineMap1[row][col]=='O') {
             playerMap[row][col]='*';
-            mineMap2[row][col]='0';
+            mineMap2[row][col]='O';
             continue;
         }
         if (func==1&&row < ROW && row >= 0 && col < COL && col>= 0&& playerMap[row][col] == '*') {
